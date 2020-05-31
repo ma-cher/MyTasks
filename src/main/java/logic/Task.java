@@ -5,7 +5,6 @@ public class Task {
     private int idUser;
     private String title;
     private String description;
-
     public Task() {
     }
 
@@ -17,13 +16,13 @@ public class Task {
         this.id = id;
     }
 
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
-    }
+//    public int getIdUser() {
+//        return idUser;
+//    }
+//
+//    public void setIdUser(int idUser) {
+//        this.idUser = idUser;
+//    }
 
     public String getTitle() {
         return title;

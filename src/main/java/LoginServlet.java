@@ -15,20 +15,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class LoginServlet extends HttpServlet {
-//    private Map<Integer, User> users;
-//    private AtomicInteger userCounter;
+
 
     @Override
     public void init() throws ServletException {
-//        final Object users = getServletContext().getAttribute("users");
-//
-//        if (!(users instanceof ConcurrentHashMap)) {
-//            throw new IllegalStateException("init login");
-//        } else {
-//            this.users = (ConcurrentHashMap<Integer, User>) users;
-//        }
-//
-//        userCounter = (AtomicInteger) getServletContext().getAttribute("id");
+
     }
 
     @Override
@@ -48,19 +39,14 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         User user = new User();
-      //  final int id = this.userCounter.getAndIncrement();
         user.setName(name);
         user.setLogin(login);
         user.setPassword(password);
-       // user.setId(id);
-       // users.put(id, user);
 
-     //    добавляем в бд данные юзера и в мапу в классе юзерАгент
+     //    добавляем юзера  в мапу в классе юзерАгент
 
         if (UserAgent.add(user)) { // если логин занят вернет false и переведет на страницу "логин занят"
-            Connection connection = ConnectionDataBase.createConnection();
 
-            ConnectionDataBase.addUserToDB(connection, user);
             resp.sendRedirect("/myTasks?login=" + login);
 
         } else {

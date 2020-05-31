@@ -1,21 +1,26 @@
 package logic;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Logger;
 
 public class UserAgent {
 
     //  мапа всех юзеров с ключом по id
-    public static Map<Integer, User> users = new ConcurrentHashMap<Integer, User>();
-    private static AtomicInteger countOfUsers = new AtomicInteger(0);
+    private static Map<Integer, User> users = new ConcurrentHashMap<Integer, User>();
 
     public static Map<Integer, User> getUsers() {
         return users;
     }
+
+    public static void setUsers(Map<Integer, User> userss) {
+        users = userss;
+    }
+
+//     добавляет юзера в мапу и бд
 
     public static boolean add(final User user) {
         boolean result = true;
@@ -23,27 +28,24 @@ public class UserAgent {
         for (Map.Entry<Integer, User> pair : users.entrySet()){
             logins.add(pair.getValue().getLogin());
         }
+//        проверяет есть ли в мапе такие логины - если да возвращает false
+
         if (logins.contains(user.getLogin())) {
             System.out.println("UserAgent add problem");
             result = false;
         } else {
+            AtomicInteger countOfUsers = new AtomicInteger(users.size());
             int id = countOfUsers.incrementAndGet();
             user.setId(id);
             users.put(id, user);
+
+//            добавляет в бд
+            Connection connection = ConnectionDataBase.createConnection();
+            System.out.println("id in add method" + user.getId());
+
+            ConnectionDataBase.addUserToDB(connection, user);
             System.out.println(users.size());
         }
-
-//        for (Map.Entry<Integer, User> pair : users.entrySet()) {
-//            if (pair.getValue().getLogin().equalsIgnoreCase(user.getLogin())) {
-//                System.out.println("UserAgent add problem");
-//                result = false;
-//            } else {
-//                int id = countOfUsers.incrementAndGet();
-//                user.setId(id);
-//                users.put(countOfUsers.intValue(), user);
-//            }
-//        }
-
         return result;
     }
 
@@ -72,19 +74,17 @@ public class UserAgent {
 
     // проверяет пароль юзера
     public static boolean checkPassword(User user, String password) {
-        boolean result = false;
-        for (Map.Entry<Integer, User> pair : users.entrySet()){
-            if (pair.getValue().getPassword().equals(password)) {
-                result = true;
-            }
-        }
-        return result;
+        return user.getPassword().equals(password);
     }
 }
 
 
-
-
+//    public static User getUserByID (int id) {
+//        User user = new User();
+//        for (Map.Entry<Integer, User> pair : users.entrySet()){
+//            pair.getValue()
+//        }
+//
 
 //        for (User u : users) {
 //            if (u.getLogin().equalsIgnoreCase(user.getLogin()) && u.getPassword().equals(user.getPassword())) {
