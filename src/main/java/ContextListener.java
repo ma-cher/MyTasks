@@ -24,10 +24,13 @@ public class ContextListener implements ServletContextListener {
         Connection connection = ConnectionDataBase.createConnection();
 
         Map<Integer, User> mapFromBD = ConnectionDataBase.getUsersFromDb(connection);
+        AtomicInteger count = new AtomicInteger(0);
 
         if(mapFromBD.size() > 0) {
             for (Map.Entry<Integer, User> user : mapFromBD.entrySet()) {
-                users.put(user.getKey(), user.getValue());
+                int id = count.incrementAndGet();
+                user.getValue().setId(id);
+                users.put(id, user.getValue());
             }
         }
 

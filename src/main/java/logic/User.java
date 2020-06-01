@@ -2,13 +2,14 @@ package logic;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class User {
     private int id;
     private String name;
     private String login; // ключ в мапе в агенте
     private String password;
-    private Map<Integer,Task> tasks;
+    private Map<Integer,Task> tasks = new ConcurrentHashMap<Integer, Task>();
 
 //    public User(String name, String login, String password, int id) {
 //        this.name = name;
@@ -50,6 +51,21 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setTasks(Map<Integer, Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", tasks=" + tasks +
+                '}';
     }
 
     public Map<Integer, Task> getTasks() {

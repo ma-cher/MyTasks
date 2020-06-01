@@ -2,7 +2,6 @@ package logic;
 
 public class Task {
     private int id;
-    private int idUser;
     private String title;
     private String description;
     public Task() {
