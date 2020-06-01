@@ -44,7 +44,6 @@ public class ConnectionDataBase {
         }
     }
 
-
 //    добавляет таску в бд к определенному юзеру
 
     public static void addTaskToDB(Connection connection, User user, Task task) {
@@ -85,7 +84,6 @@ public class ConnectionDataBase {
             throwables.printStackTrace();
             System.out.println("SQLException from getUsersFromDb(): " + throwables.getMessage());
         }
-
         return map;
     }
 
@@ -105,7 +103,7 @@ public class ConnectionDataBase {
                     task = new Task();
                     id = rs.getInt("id");
                     task.setTitle(rs.getString("title"));
-                    task.setDescription(rs.getString("description"));
+                    task.setDescription(rs.getString("content"));
 
                     map.put(id, task);
                 }
@@ -113,6 +111,33 @@ public class ConnectionDataBase {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             System.out.println("SQLException from getTasksForUserFromDb(): " + throwables.getMessage());
+        }
+        return map;
+    }
+
+    public static Map<Integer, Task> getAllTasksFromDB (Connection connection) {
+        Map<Integer, Task> map = new ConcurrentHashMap<Integer, Task>();
+        Task task;
+        int id;
+
+        try {
+            if (connection != null) {
+                Statement statement = connection.createStatement();
+                ResultSet rs = statement.executeQuery("SELECT * FROM tasks");
+
+                while (rs.next()) {
+                    task = new Task();
+                    id = rs.getInt("id");
+                    task.setIdUser(rs.getInt("user_id"));
+                    task.setId(rs.getInt("id"));
+                    task.setTitle(rs.getString("title"));
+                    task.setDescription(rs.getString("content"));
+                    map.put(id, task);
+                }
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            System.out.println("SQLException from getAllTasksFromDB(): " + throwables.getMessage());
         }
 
         return map;

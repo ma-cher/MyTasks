@@ -1,4 +1,5 @@
 import logic.Task;
+import logic.TaskAgent;
 import logic.User;
 import logic.UserAgent;
 
@@ -14,29 +15,62 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MyTasksServlet extends HttpServlet {
 
-    static Map<Integer, Task> tasks = new ConcurrentHashMap<Integer, Task>();
-    static User user;
+//    static Map<Integer, Task> tasks = TaskAgent.getTasks();
+//   static User user;
 
 
     @Override
     public void init() throws ServletException {
-
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
         String login = req.getParameter("login");
-        User user = UserAgent.getUserByLogin(login);
+        User user = (User) req.getAttribute("user");
 
-        Map<Integer, Task> tasks = user.getTasks();
-
-        if(tasks.size() > 0) {
-            req.setAttribute("tasks", tasks);
+        if (user == null) {
+            user = UserAgent.getUserByLogin(login);
         }
+//         узнали юзера для которого сейчас будем выводить таски и которому в таски сейчас будем добавлять таски
+
+
+//       достаем всю мапу всех задач в которую записано все из бд при загрузке приложения
+        Map<Integer, Task> tasks = new ConcurrentHashMap<Integer, Task>();
+        for (Map.Entry<Integer, Task> taskEntry : TaskAgent.getTasks().entrySet()) {
+                tasks.put(taskEntry.getKey(), taskEntry.getValue());
+        }
+
+        for (Map.Entry<Integer, Task> taskEntry : tasks.entrySet()) {
+            System.out.println(taskEntry.getKey() + " " + taskEntry.getValue().getTitle());
+        }
+
+//        создаем мапу для считывания в нее задач конкретного юзера
+        Map<Integer, Task> userTasks = new ConcurrentHashMap<Integer, Task>();
+
+//        если во  мапе всех задач еще вообще нет задач переходим просто на страницу создания
+        if(tasks.size() == 0) {
+            req.setAttribute("user", user);
+            req.setAttribute("login", login);
+            req.setAttribute("tasks", userTasks);
+            getServletContext().getRequestDispatcher("/jsp/myTasksPage.jsp").forward(req, resp);
+        }
+//        иначе ищем задачи конкретного юзера
+        else {
+            for (Map.Entry<Integer, Task> taskEntry : tasks.entrySet()) {
+                if (taskEntry.getValue().getIdUser() == user.getId()){
+                    userTasks.put(taskEntry.getKey(), taskEntry.getValue());
+                }
+            }
+            user.setTasks(userTasks);
+        }
+        for (Map.Entry<Integer, Task> taskEntry : userTasks.entrySet()) {
+            System.out.println(taskEntry.getKey() + " " + taskEntry.getValue().getTitle());
+        }
+//        теперь наша главная страница знает какие задачи отображать и в какие задачи складывать добавленные
         req.setAttribute("user", user);
         req.setAttribute("login", login);
-
+        req.setAttribute("tasks", userTasks);
         getServletContext().getRequestDispatcher("/jsp/myTasksPage.jsp").forward(req, resp);
     }
 
@@ -46,28 +80,3 @@ public class MyTasksServlet extends HttpServlet {
     }
 }
 
-
-
-
-
-
-//          проверка работы метода гет
-//        PrintWriter pw = resp.getWriter();
-//
-//        String login = req.getParameter("login");
-//
-//        req.setAttribute("login", login);
-//
-//        pw.println("Hello, " + login + ", this is your task manager");
-//
-//        pw.println("Size of users in db = " + UserAgent.getUsers().size());
-//
-//        for (int i = 1; i < UserAgent.getUsers().size()+1; i++) {
-//            pw.println(UserAgent.getUsers().get(i).getName());
-//        }
-//
-//        Map<Integer, User> map = (ConcurrentHashMap<Integer, User>) getServletContext().getAttribute("users");
-//
-//        for (int i = 1; i < map.size()+1; i++) {
-//            pw.println(map.get(i).getName());
-//        }

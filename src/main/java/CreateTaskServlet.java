@@ -15,16 +15,6 @@ public class CreateTaskServlet extends HttpServlet {
     private AtomicInteger idCounter = new AtomicInteger(0);
 
     @Override
-    public void init() throws ServletException {
-
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-    }
-
-    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String title = req.getParameter("title");
@@ -37,37 +27,18 @@ public class CreateTaskServlet extends HttpServlet {
 
         String login = req.getParameter("login");
         User user = UserAgent.getUserByLogin(login);
-        System.out.println(user.toString());
+        Task taskWithID = TaskAgent.addTask(task, user);
 
-        Map<Integer, Task> tasksUser = new ConcurrentHashMap<Integer, Task>();
-        int id = user.getTasks().size();
+        Map<Integer, Task> userTasks = user.getTasks();
 
-        if (id > 0) {
-         tasksUser = user.getTasks();
-        }
+        userTasks.put(taskWithID.getId(), taskWithID);
+        user.setTasks(userTasks);
 
-        if (tasksUser.size() == 0) {
-            tasksUser.put(1, task);
-            user.setTasks(tasksUser);
-            Connection connection = ConnectionDataBase.createConnection();
-            ConnectionDataBase.addTaskToDB(connection, user, task);
+        req.setAttribute("user", user);
+        req.setAttribute("login", login);
+        req.setAttribute("tasks", userTasks);
 
-            req.setAttribute("user", user);
-            req.setAttribute("login", login);
-            resp.sendRedirect("/myTasks?login=" + login);
-
-        } else {
-            tasksUser = user.getTasks();
-             int idTask = id++;
-            tasksUser.put(id, task);
-            user.setTasks(tasksUser);
-            Connection connection = ConnectionDataBase.createConnection();
-            ConnectionDataBase.addTaskToDB(connection, user, task);
-
-            req.setAttribute("user", user);
-            req.setAttribute("login", login);
-            resp.sendRedirect("/myTasks?login=" + login);
-        }
+        getServletContext().getRequestDispatcher("/jsp/myTasksPage.jsp").forward(req, resp);
 
     }
 }

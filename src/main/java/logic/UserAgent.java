@@ -76,68 +76,6 @@ public class UserAgent {
     public static boolean checkPassword(User user, String password) {
         return user.getPassword().equals(password);
     }
+
 }
 
-
-//    public static User getUserByID (int id) {
-//        User user = new User();
-//        for (Map.Entry<Integer, User> pair : users.entrySet()){
-//            pair.getValue()
-//        }
-//
-
-//        for (User u : users) {
-//            if (u.getLogin().equalsIgnoreCase(user.getLogin()) && u.getPassword().equals(user.getPassword())) {
-//                return false;
-//            }
-//        }
-       // return users.add(user);
-
-//    public User getById(int id) {
-//        User result = new User();
-//        result.setId(-1);
-//
-//        for (User user : users) {
-//            if (user.getId() == id) {
-//                result = user;
-//            }
-//        }
-//
-//        return result;
-//    }
-//
-//    public User getUserByLogin(final String login) {
-//        User result = new User();
-//        result.setId(-1);
-//
-//        for (User user : users) {
-//            if (user.getLogin().equalsIgnoreCase(login)) {
-//                result = user;
-//            }
-//        }
-//        return result;
-//    }
-//
-//    public User getUserByLoginPassword(final String login, final String password) {
-//        User result = new User();
-//        result.setId(-1);
-//
-//        for (User user : users) {
-//            if (user.getLogin().equalsIgnoreCase(login) && user.getPassword().equals(password)) {
-//                result = user;
-//            }
-//        }
-//        return result;
-//    }
-//
-//
-//    public boolean userIsExist(final String login, final String password) {
-//        boolean result = false;
-//        for (User user : users) {
-//            if (user.getLogin().equalsIgnoreCase(login) && user.getPassword().equals(password)) {
-//                result = true;
-//                break;
-//            }
-//        }
-//        return result;
-//    }

@@ -11,13 +11,6 @@ public class User {
     private String password;
     private Map<Integer,Task> tasks = new ConcurrentHashMap<Integer, Task>();
 
-//    public User(String name, String login, String password, int id) {
-//        this.name = name;
-//        this.login = login;
-//        this.password = password;
-//        this.id = id;
-//    }
-
     public User (){
     }
 

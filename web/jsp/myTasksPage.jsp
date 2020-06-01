@@ -1,4 +1,7 @@
 <%@ page import="logic.User" %>
+<%@ page import="logic.Task" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.concurrent.ConcurrentHashMap" %>
 <%--
   Created by IntelliJ IDEA.
   User: M.Chernyavskaya
@@ -16,7 +19,7 @@
 <h3>Create a new Task</h3><br />
 <% String login = (String) request.getAttribute("login"); %>
 <% User user = (User) request.getAttribute("user"); %>
-
+<% Map<Integer, Task> tasks = (ConcurrentHashMap<Integer, Task>) request.getAttribute("tasks"); %>
 <form method="post" action="/create_task">
 
     <label>Title</label><br>
@@ -29,6 +32,16 @@
     <% out.println("<input type=\"hidden\" name=\"login\" value=\""  + login + "\">"); %>
 <%--    <% request.setAttribute("login", login);%>--%>
 </form>
+
+<div>
+    <% for (Map.Entry<Integer, Task> taskEntry : tasks.entrySet()) {
+        out.println("<p>Заголовок задачи</p>");
+        out.println("<p>" + taskEntry.getValue().getTitle() + "</p>");
+        out.println("<p>Описание задачи</p>");
+        out.println("<p>" + taskEntry.getValue().getDescription() + "</p>");
+    }
+    %>
+</div>
 
 
 </body>
