@@ -9,13 +9,12 @@
 <html>
 <head>
     <title>Login</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <body>
-
-<h1>Enter to MyTasks</h1>
-<form method="post">
-    <div>
-        <h2>Enter</h2>
+<div>
+<h3>Enter to MyTasks</h3>
+<form class="inputText" method="post">
 
     <label>Login</label><br>
     <input name="login" /><br>
@@ -24,8 +23,8 @@
         <input name="password" /><br><br>
 
         <input type="submit" value="ok" />
-    </div>
-</form>
 
+</form>
+    </div>
 </body>
 </html>

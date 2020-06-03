@@ -9,13 +9,14 @@
 <html>
 <head>
     <title>Login is not exist</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <body>
 <h3>Sorry, this login is not exist</h3><br>
-<h5>Please, enter your information again</h5>
+<h4>Please, enter your information again</h4><br>
 
-<input type="submit" value="Try again" onclick="window.location='/enter';" />
-<h5>Or create  an account</h5>
+<input type="submit" value="Try again" onclick="window.location='/enter';" /><br>
+<h4>Or create  an account</h4><br>
 
 <input type="submit" value="Registration" onclick="window.location='/login';" />
 

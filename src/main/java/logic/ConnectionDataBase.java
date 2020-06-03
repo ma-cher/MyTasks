@@ -4,16 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+//    the only one connection class
+
 public class ConnectionDataBase {
     private static final String host = "jdbc:mysql://localhost:3306/tasks_bd";
     private static final String uName = "root";
     private static final String uPass = "root";
 
-//    создаем один Connection к бд
-
     public static Connection createConnection () {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); // загружает драйвер из mysql This forces the driver to register itself, so that Java knows how to handle those database connection strings.
+            Class.forName("com.mysql.cj.jdbc.Driver"); // download mysql. This forces the driver to register itself, so that Java knows how to handle those database connection strings.
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println("Driver problem");
@@ -28,7 +28,7 @@ public class ConnectionDataBase {
         }
     }
 
-//    добавляет юзера в бд
+//    add user to db to table users
 
     public static void addUserToDB(Connection connection, User user) {
         try {
@@ -44,7 +44,7 @@ public class ConnectionDataBase {
         }
     }
 
-//    добавляет таску в бд к определенному юзеру
+//    add task to db to table tasks
 
     public static void addTaskToDB(Connection connection, User user, Task task) {
         try {
@@ -60,7 +60,7 @@ public class ConnectionDataBase {
         }
     }
 
-//    получаем всех юзеров по бд, испльзуется при первом запуске приложения
+//    get all users from db (use only one time init context)
 
     public static Map<Integer, User> getUsersFromDb(Connection connection) {
         Map<Integer, User> map = new ConcurrentHashMap<Integer, User>();
@@ -87,7 +87,7 @@ public class ConnectionDataBase {
         return map;
     }
 
-//    получаем все задачи по id юзера
+//    get all tasks for user from db (not using yet)
 
     public static Map<Integer, Task> getTasksForUserFromDb(Connection connection, int idUser) {
         Map<Integer, Task> map = new HashMap<Integer, Task>();
@@ -114,6 +114,8 @@ public class ConnectionDataBase {
         }
         return map;
     }
+
+    // get all tasks from db (use only one time init context)
 
     public static Map<Integer, Task> getAllTasksFromDB (Connection connection) {
         Map<Integer, Task> map = new ConcurrentHashMap<Integer, Task>();

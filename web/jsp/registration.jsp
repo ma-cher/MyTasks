@@ -9,11 +9,12 @@
 <html>
 <head>
     <title>Registration</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <body>
-<form method="post">
-    <div>
-        <h2>Registration</h2>
+<div>
+<h3>Registration</h3>
+<form class="inputText" method="post">
         <label>Name</label><br>
         <input name="name"/><br>
 
@@ -24,7 +25,7 @@
         <input name="password" /><br><br>
 
         <input type="submit" value="ok" />
-    </div>
 </form>
+</div>
 </body>
 </html>

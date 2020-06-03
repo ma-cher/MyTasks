@@ -14,18 +14,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+//  registration
+
 public class LoginServlet extends HttpServlet {
-
-
-    @Override
-    public void init() throws ServletException {
-
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setCharacterEncoding("UTF-8");
 
+        resp.setCharacterEncoding("UTF-8");
         getServletContext().getRequestDispatcher("/jsp/registration.jsp").forward(req, resp);
     }
 
@@ -43,46 +39,14 @@ public class LoginServlet extends HttpServlet {
         user.setLogin(login);
         user.setPassword(password);
 
-     //    добавляем юзера  в мапу в классе юзерАгент
+     //    add user in UserAgent class to map and db
 
-        if (UserAgent.add(user)) { // если логин занят вернет false и переведет на страницу "логин занят"
-
+        if (UserAgent.add(user)) { // if login is busy redirect to login is busy page
             resp.sendRedirect("/myTasks?login=" + login);
-
         } else {
             getServletContext().getRequestDispatcher("/jsp/loginIsBusy.jsp").forward(req, resp);
         }
     }
 }
 
-
-
-
-
-
-//        try {
-//            if (connection != null) {
-//                Statement statement = connection.createStatement();
-//
-//                ResultSet rs = statement.executeQuery("Select * from users;");
-//                List<String> logins = new ArrayList<String>();
-//
-//                while (rs.next()) {
-//                    logins.add(rs.getString("login"));
-//                }
-//                if (logins.contains(login)) {
-//                    getServletContext().getRequestDispatcher("/jsp/loginIsBusy.jsp").forward(req, resp);
-//                }
-//                else {
-//                    String sql = String.format("INSERT INTO `users` (`name`, `login`, `password`) " +
-//                            "VALUES ('%s', '%s', '%s');", name, login, password);
-//                    statement.executeUpdate(sql);
-//                    resp.sendRedirect("/myTasks?login=" + login);
-//                }
-//            } else System.out.println("connection error");
-//
-//        } catch (SQLException throwables) {
-//            throwables.printStackTrace();
-//            pw.println(throwables.getMessage());
-//        }
 

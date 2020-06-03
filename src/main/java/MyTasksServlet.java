@@ -15,50 +15,44 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MyTasksServlet extends HttpServlet {
 
-//    static Map<Integer, Task> tasks = TaskAgent.getTasks();
-//   static User user;
-
-
-    @Override
-    public void init() throws ServletException {
-    }
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setCharacterEncoding("UTF-8");
         String login = req.getParameter("login");
+
+//        get user from create task page. if its the first time - get user by login
+
         User user = (User) req.getAttribute("user");
 
         if (user == null) {
             user = UserAgent.getUserByLogin(login);
         }
-//         узнали юзера для которого сейчас будем выводить таски и которому в таски сейчас будем добавлять таски
 
+//        get map of all tasks
 
-//       достаем всю мапу всех задач в которую записано все из бд при загрузке приложения
         Map<Integer, Task> tasks = new ConcurrentHashMap<Integer, Task>();
         for (Map.Entry<Integer, Task> taskEntry : TaskAgent.getTasks().entrySet()) {
-                tasks.put(taskEntry.getKey(), taskEntry.getValue());
+            tasks.put(taskEntry.getKey(), taskEntry.getValue());
         }
 
-        for (Map.Entry<Integer, Task> taskEntry : tasks.entrySet()) {
-            System.out.println(taskEntry.getKey() + " " + taskEntry.getValue().getTitle());
-        }
+//        create the map to get all tasks of user
 
-//        создаем мапу для считывания в нее задач конкретного юзера
         Map<Integer, Task> userTasks = new ConcurrentHashMap<Integer, Task>();
 
-//        если во  мапе всех задач еще вообще нет задач переходим просто на страницу создания
-        if(tasks.size() == 0) {
+//       if there isn't any task go to main page again
+
+        if (tasks.size() == 0) {
             req.setAttribute("user", user);
             req.setAttribute("login", login);
             req.setAttribute("tasks", userTasks);
             getServletContext().getRequestDispatcher("/jsp/myTasksPage.jsp").forward(req, resp);
         }
-//        иначе ищем задачи конкретного юзера
+
+//        or find the tasks of user
+
         else {
             for (Map.Entry<Integer, Task> taskEntry : tasks.entrySet()) {
-                if (taskEntry.getValue().getIdUser() == user.getId()){
+                if (taskEntry.getValue().getIdUser() == user.getId()) {
                     userTasks.put(taskEntry.getKey(), taskEntry.getValue());
                 }
             }
@@ -67,16 +61,11 @@ public class MyTasksServlet extends HttpServlet {
         for (Map.Entry<Integer, Task> taskEntry : userTasks.entrySet()) {
             System.out.println(taskEntry.getKey() + " " + taskEntry.getValue().getTitle());
         }
-//        теперь наша главная страница знает какие задачи отображать и в какие задачи складывать добавленные
+//        now our main page get all tasks to view and where to put others
         req.setAttribute("user", user);
         req.setAttribute("login", login);
         req.setAttribute("tasks", userTasks);
         getServletContext().getRequestDispatcher("/jsp/myTasksPage.jsp").forward(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
     }
 }
 

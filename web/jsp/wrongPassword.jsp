@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>WrongPassword!!</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <body>
 <h3>Sorry, your password is wrong</h3>

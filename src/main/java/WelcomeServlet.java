@@ -13,16 +13,20 @@ public class WelcomeServlet extends HttpServlet {
         PrintWriter pw = resp.getWriter();
 
         pw.println("<html>");
-        pw.println("<head><title>Welcome</title></head><body>");
-        pw.println("<input type=\"submit\" value=\"Registration\" onclick=\"window.location='/login';\" />");
+        pw.println("<head>");
+        pw.println("<title>Welcome</title>");
+        pw.println("<link rel=\"stylesheet\" href=\"css/style.css\">");
+
+        pw.println("</head>");
+        pw.println("<body>");
+        pw.println("<div>");
+        pw.println("<h3>Welcome to MyTasks</h3>");
+        pw.println("<input type=\"submit\" value=\"Registration\" onclick=\"window.location='/login';\" /><br><br>");
         pw.println("<input type=\"submit\" value=\"Enter\" onclick=\"window.location='enter';\" />");
+        pw.println("</div>");
         pw.println("</body></html>");
         pw.println("</html>");
 
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-    }
 }

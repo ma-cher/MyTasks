@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class TaskAgent {
+//  manage map of all tasks
 
-    //  мапа всех тасок  с ключом  по id
+public class TaskAgent {
 
     private static Map<Integer, Task> tasks = new ConcurrentHashMap<Integer, Task>();
 
@@ -22,6 +22,8 @@ public class TaskAgent {
     }
 
 
+//    add task to map and return the task with increment ID
+
     public static Task addTask(final Task task, User user) {
 
         AtomicInteger countOfTasks = new AtomicInteger(tasks.size());
@@ -29,12 +31,11 @@ public class TaskAgent {
         task.setId(id);
         tasks.put(id, task);
 
-//            добавляет в бд
+//     add to db
+
         Connection connection = ConnectionDataBase.createConnection();
-//            System.out.println("id in addTask method idtask " + task.getId());
 
         ConnectionDataBase.addTaskToDB(connection, user, task);
-//            System.out.println("id in addTask method tasks size" + tasks.size());
 
         return task;
     }

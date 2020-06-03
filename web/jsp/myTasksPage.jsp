@@ -14,34 +14,37 @@
 <html>
 <head>
     <title>MyTasks</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <body>
+<div>
 <h3>Create a new Task</h3><br />
 <% String login = (String) request.getAttribute("login"); %>
 <% User user = (User) request.getAttribute("user"); %>
 <% Map<Integer, Task> tasks = (ConcurrentHashMap<Integer, Task>) request.getAttribute("tasks"); %>
-<form method="post" action="/create_task">
+<form class="inputText" method="post" action="/create_task">
 
     <label>Title</label><br>
     <input name="title"/><br>
 
     <label>Description</label><br>
-    <input name="description"/><br>
+    <input name="description"/><br><br>
     <input type="submit" value="Create"/>
 
     <% out.println("<input type=\"hidden\" name=\"login\" value=\""  + login + "\">"); %>
 <%--    <% request.setAttribute("login", login);%>--%>
 </form>
+</div><br>
 
-<div>
     <% for (Map.Entry<Integer, Task> taskEntry : tasks.entrySet()) {
-        out.println("<p>Заголовок задачи</p>");
-        out.println("<p>" + taskEntry.getValue().getTitle() + "</p>");
-        out.println("<p>Описание задачи</p>");
+        out.println("<div>");
+        out.println("<p class=\"title\">" + taskEntry.getValue().getTitle() + "</p>");
         out.println("<p>" + taskEntry.getValue().getDescription() + "</p>");
+        out.println("<input type=\"submit\" value=\"Update\"/>");
+        out.println("<input type=\"submit\" value=\"Delete\"/>");
+        out.println("</div><br>");
     }
     %>
-</div>
 
 
 </body>

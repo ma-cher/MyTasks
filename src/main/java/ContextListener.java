@@ -18,7 +18,8 @@ public class ContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent event) {
         ServletContext sc = event.getServletContext();
 
-//        инициализируем всех пользователей при запуске приложения (скачиваем информацию с бд)
+//        initialize all users during at the start up (download from db)
+
         users = new ConcurrentHashMap<Integer, User>();
 
         Connection connection1 = ConnectionDataBase.createConnection();
@@ -37,7 +38,7 @@ public class ContextListener implements ServletContextListener {
         sc.setAttribute("users", users);
         UserAgent.setUsers(users);
 
-//        инициализируем все задачи при запуске приложения (скачиваем информацию с бд) с ключом по id
+//        initialize all tasks during at the start up (download from db)
 
         tasks = new ConcurrentHashMap<Integer, Task>();
         Connection connection2 = ConnectionDataBase.createConnection();

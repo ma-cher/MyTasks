@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class User {
     private int id;
     private String name;
-    private String login; // ключ в мапе в агенте
+    private String login;
     private String password;
     private Map<Integer,Task> tasks = new ConcurrentHashMap<Integer, Task>();
 

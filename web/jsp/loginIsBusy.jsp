@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Login is busy</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css">
 </head>
 <body>
 <h3>Sorry, this login is busy</h3>

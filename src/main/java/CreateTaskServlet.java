@@ -10,13 +10,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class CreateTaskServlet extends HttpServlet {
+// create task
 
-    private AtomicInteger idCounter = new AtomicInteger(0);
+public class CreateTaskServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         String title = req.getParameter("title");
         String description = req.getParameter("description");
 

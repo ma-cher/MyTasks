@@ -7,9 +7,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+//      the map with all users (id = key)
+
 public class UserAgent {
 
-    //  мапа всех юзеров с ключом по id
     private static Map<Integer, User> users = new ConcurrentHashMap<Integer, User>();
 
     public static Map<Integer, User> getUsers() {
@@ -20,15 +21,15 @@ public class UserAgent {
         users = userss;
     }
 
-//     добавляет юзера в мапу и бд
+//     add user to map and db (return true if the login is free)
 
     public static boolean add(final User user) {
         boolean result = true;
         List<String> logins = new ArrayList<String>();
-        for (Map.Entry<Integer, User> pair : users.entrySet()){
+        for (Map.Entry<Integer, User> pair : users.entrySet()) {
             logins.add(pair.getValue().getLogin());
         }
-//        проверяет есть ли в мапе такие логины - если да возвращает false
+//        check if the map has the same login
 
         if (logins.contains(user.getLogin())) {
             System.out.println("UserAgent add problem");
@@ -39,7 +40,7 @@ public class UserAgent {
             user.setId(id);
             users.put(id, user);
 
-//            добавляет в бд
+//        add to db
             Connection connection = ConnectionDataBase.createConnection();
             System.out.println("id in add method" + user.getId());
 
@@ -49,7 +50,8 @@ public class UserAgent {
         return result;
     }
 
-    // проверка есть ли в мапе юзеры с таким логином
+//     check is login already exist
+
     public static boolean loginIsExist(String login) {
         boolean result = false;
         for (Map.Entry<Integer, User> pair : users.entrySet()) {
@@ -61,10 +63,11 @@ public class UserAgent {
         return result;
     }
 
-    // получение юзера по логину
+//   get user by login
+
     public static User getUserByLogin(final String login) {
         User result = null;
-        for (Map.Entry<Integer, User> pair : users.entrySet()){
+        for (Map.Entry<Integer, User> pair : users.entrySet()) {
             if (pair.getValue().getLogin().equalsIgnoreCase(login)) {
                 result = pair.getValue();
             }
@@ -72,7 +75,8 @@ public class UserAgent {
         return result;
     }
 
-    // проверяет пароль юзера
+//    check password
+
     public static boolean checkPassword(User user, String password) {
         return user.getPassword().equals(password);
     }
