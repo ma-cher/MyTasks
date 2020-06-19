@@ -25,10 +25,12 @@ public class ConnectionDataBase {
             sqlException.printStackTrace();
             System.out.println("(method doConnection()) SQLException: " + sqlException.getMessage());
             return null;
+            //todo failure of DB connection creation may mean application should be shutdown immediately
         }
     }
 
 //    add user to db to table users
+    //^ todo comments spacing
 
     public static void addUserToDB(Connection connection, User user) {
         try {
@@ -41,6 +43,8 @@ public class ConnectionDataBase {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
             System.out.println("(method addUserToDB()) SQLException: " + sqlException.getMessage());
+
+            //todo it may worth to re-throw exception somehow. Add user failure is quite critical
         }
     }
 
