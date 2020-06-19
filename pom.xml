@@ -11,12 +11,12 @@
 
     <dependencies>
 
-    <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-      <dependency>
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.20</version>
-     </dependency>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
         <dependency>
