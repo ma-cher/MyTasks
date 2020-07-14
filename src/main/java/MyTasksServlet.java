@@ -30,8 +30,7 @@ public class MyTasksServlet extends HttpServlet {
 
 //        get map of all tasks
 
-        //todo local variable task uses of concurrent structure may be overhead.
-        // concurrent structure may be meaningful when state is shared between threads( published)
+
         Map<Integer, Task> tasks = new ConcurrentHashMap<Integer, Task>();
         for (Map.Entry<Integer, Task> taskEntry : TaskAgent.getTasks().entrySet()) {
             tasks.put(taskEntry.getKey(), taskEntry.getValue());

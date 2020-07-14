@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -41,10 +42,14 @@ public class LoginServlet extends HttpServlet {
 
      //    add user in UserAgent class to map and db
 
-        if (UserAgent.add(user)) { // if login is busy redirect to login is busy page
-            resp.sendRedirect("/myTasks?login=" + login);
-        } else {
-            getServletContext().getRequestDispatcher("/jsp/loginIsBusy.jsp").forward(req, resp);
+        try {
+            if (UserAgent.add(user)) { // if login is busy redirect to login is busy page
+                resp.sendRedirect("/myTasks?login=" + login);
+            } else {
+                getServletContext().getRequestDispatcher("/jsp/loginIsBusy.jsp").forward(req, resp);
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
         }
     }
 }

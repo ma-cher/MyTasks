@@ -19,7 +19,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>WelcomeServlet</servlet-name>
-        <url-pattern></url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -47,5 +47,21 @@
     <servlet-mapping>
         <servlet-name>CreateTaskServlet</servlet-name>
         <url-pattern>/create_task</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>UpdateTaskServlet</servlet-name>
+        <servlet-class>UpdateTaskServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateTaskServlet</servlet-name>
+        <url-pattern>/update_task</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DeleteTaskServlet</servlet-name>
+        <servlet-class>DeleteTaskServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteTaskServlet</servlet-name>
+        <url-pattern>/delete_task</url-pattern>
     </servlet-mapping>
 </web-app>

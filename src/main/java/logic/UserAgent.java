@@ -1,6 +1,7 @@
 package logic;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class UserAgent {
 
 //     add user to map and db (return true if the login is free)
 
-    public static boolean add(final User user) {
+    public static boolean add(final User user) throws SQLException {
         boolean result = true;
         List<String> logins = new ArrayList<String>();
         for (Map.Entry<Integer, User> pair : users.entrySet()) {

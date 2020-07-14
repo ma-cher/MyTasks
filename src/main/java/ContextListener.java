@@ -5,6 +5,7 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -22,7 +23,12 @@ public class ContextListener implements ServletContextListener {
 
         users = new ConcurrentHashMap<Integer, User>();
 
-        Connection connection1 = ConnectionDataBase.createConnection();
+        Connection connection1 = null;
+        try {
+            connection1 = ConnectionDataBase.createConnection();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
 
         Map<Integer, User> mapUsersFromBD = ConnectionDataBase.getUsersFromDb(connection1);
         AtomicInteger count = new AtomicInteger(0);
@@ -41,7 +47,12 @@ public class ContextListener implements ServletContextListener {
 //        initialize all tasks during at the start up (download from db)
 
         tasks = new ConcurrentHashMap<Integer, Task>();
-        Connection connection2 = ConnectionDataBase.createConnection();
+        Connection connection2 = null;
+        try {
+            connection2 = ConnectionDataBase.createConnection();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
         Map<Integer, Task> mapTasksFromBD = ConnectionDataBase.getAllTasksFromDB(connection2);
 
         if (mapTasksFromBD.size() > 0) {

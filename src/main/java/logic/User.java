@@ -10,6 +10,16 @@ public class User {
     private String login;
     private String password;
     private Map<Integer,Task> tasks = new ConcurrentHashMap<Integer, Task>();
+    private List<User> friends;
+    private Map<Integer, Goal> goals;
+
+    public List<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<User> friends) {
+        this.friends = friends;
+    }
 
     public User (){
     }

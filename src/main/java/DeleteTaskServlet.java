@@ -1,49 +1,43 @@
-import logic.*;
+import logic.Task;
+import logic.TaskAgent;
+import logic.User;
+import logic.UserAgent;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
-// create task
+public class DeleteTaskServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-public class CreateTaskServlet extends HttpServlet {
+    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String title = req.getParameter("title");
-        String description = req.getParameter("description");
-
-        Task task = new Task();
-
-        task.setTitle(title);
-        task.setDescription(description);
-
+        int id =Integer.parseInt(req.getParameter("taskId"));
         String login = req.getParameter("login");
+
         User user = UserAgent.getUserByLogin(login);
-        Task taskWithID = null;
+        Task task = user.getTasks().get(id);
+
+        User user1 = null;
         try {
-            taskWithID = TaskAgent.addTask(task, user);
+            user1 = TaskAgent.removeTask(task, user);
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-
-        Map<Integer, Task> userTasks = user.getTasks();
-
-        userTasks.put(taskWithID.getId(), taskWithID);
-        user.setTasks(userTasks);
+        Map<Integer, Task> userTasks = user1.getTasks();
 
         req.setAttribute("user", user);
         req.setAttribute("login", login);
         req.setAttribute("tasks", userTasks);
 
         getServletContext().getRequestDispatcher("/jsp/myTasksPage.jsp").forward(req, resp);
-
     }
 }

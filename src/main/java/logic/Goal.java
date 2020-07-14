@@ -1,23 +1,13 @@
 package logic;
 
-public class Task {
+import java.util.List;
+
+public class Goal {
     private int id;
-    private int idUser;
-    private String title;
+    private String name;
     private String description;
-    private Goal goal;
+    private List<Task> taskList;
     private boolean isDone;
-
-    public Task() {
-    }
-
-    public Goal getGoal() {
-        return goal;
-    }
-
-    public void setGoal(Goal goal) {
-        this.goal = goal;
-    }
 
     public boolean isDone() {
         return isDone;
@@ -35,20 +25,12 @@ public class Task {
         this.id = id;
     }
 
-    public int getIdUser() {
-        return idUser;
+    public String getName() {
+        return name;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
